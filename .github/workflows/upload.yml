@@ -1,14 +1,10 @@
-name: Upload to B2
+name: Test B2 Login
 
 on:
   workflow_dispatch:
-    inputs:
-      file_url:
-        description: "Direct download link"
-        required: true
 
 jobs:
-  upload:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,12 +16,10 @@ jobs:
           python-version: "3.10"
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: pip install b2sdk
 
-      - name: Run upload
+      - name: Test login
         env:
-          FILE_URL: ${{ github.event.inputs.file_url }}
           B2_KEY_ID: ${{ secrets.B2_KEY_ID }}
-          B2_APP_KEY: ${{ secrets.B2_APPLICATION_KEY }}
-          B2_BUCKET: ${{ secrets.B2_BUCKET_NAME }}
+          B2_APPLICATION_KEY: ${{ secrets.B2_APPLICATION_KEY }}
         run: python upload.py
